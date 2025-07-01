@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📈 Finla – Charts</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #111;
+      color: #f1f1f1;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      color: gold;
+      margin-bottom: 2rem;
+    }
+
+    canvas {
+      margin: 2rem auto;
+      max-width: 600px;
+      background: #222;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 0 8px #FFD70080;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📊 Your Spending Summary</h1>
+
+  <canvas id="barChart" width="400" height="200"></canvas>
+  <canvas id="pieChart" width="400" height="200"></canvas>
+
+  <script>
+    const labels = {{ labels | tojson }};
+    const values = {{ values | tojson }};
+
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Spending by Category (₹)',
+          data: values,
+          backgroundColor: '#FFD700'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `₹${context.raw}`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: '#f1f1f1'
+            }
+          },
+          x: {
+            ticks: {
+              color: '#f1f1f1'
+            }
+          }
+        }
+      }
+    });
+
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Spending Distribution',
+          data: values,
+          backgroundColor: [
+            '#FFD700', '#FF8C00', '#00CED1',
+            '#7FFF00', '#DC143C', '#8A2BE2'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.label || '';
+                let value = context.raw || 0;
+                return `${label}: ₹${value}`;
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🏦 Finla – Bank Accounts</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+    }
+    h1, h2 {
+      color: gold;
+    }
+    .bank-form, .bank-card {
+      background: #222;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #FFD70088;
+      margin-bottom: 2rem;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      background: #FFD700;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .checkbox-group label {
+      background: #333;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
+    .alert {
+      color: red;
+      font-weight: bold;
+    }
+    .ok {
+      color: limegreen;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🏦 Bank Dashboard</h1>
+
+  <h2>Add New Bank Account</h2>
+  <form action="/add_bank" method="POST" class="bank-form">
+    <label>Bank Name:</label>
+    <input type="text" name="bank_name" required>
+
+    <label>Starting Balance (₹):</label>
+    <input type="number" name="balance" required>
+
+    <label>Minimum Balance Alert (₹):</label>
+    <input type="number" name="min_balance" required>
+
+    <label>Linked UPI Platforms:</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="linked_platforms" value="GPay"> GPay</label>
+      <label><input type="checkbox" name="linked_platforms" value="PhonePe"> PhonePe</label>
+      <label><input type="checkbox" name="linked_platforms" value="Paytm"> Paytm</label>
+      <label><input type="checkbox" name="linked_platforms" value="Amazon Pay"> Amazon Pay</label>
+    </div>
+
+    <button type="submit">Add Bank</button>
+  </form>
+
+  <h2>Your Bank Accounts</h2>
+  {% if banks %}
+    {% for bank in banks %}
+      <div class="bank-card">
+        <h3>{{ bank.bank_name }}</h3>
+        <p><strong>Linked UPI:</strong> {{ bank.linked_platforms | join(', ') or "None" }}</p>
+        <p><strong>Minimum Alert:</strong> ₹{{ bank.min_balance }}</p>
+        <p><strong>Current Balance:</strong> ₹{{ "%.2f"|format(bank.current_balance) }}
+          {% if bank.alert %}
+            <span class="alert">🚨 Low Balance!</span>
+          {% else %}
+            <span class="ok">✅ Healthy</span>
+          {% endif %}
+        </p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No bank accounts added yet.</p>
+  {% endif %}
+
+</body>
+</html>

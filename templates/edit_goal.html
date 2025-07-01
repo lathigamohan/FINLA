@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>✏️ Edit Goal – Finla</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      background-color: #111;
+      color: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+    }
+
+    h2 {
+      color: gold;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      background: #222;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 8px #FFD70080;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      color: #ddd;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #333;
+      color: #fff;
+    }
+
+    button {
+      background-color: gold;
+      color: #000;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 2rem;
+      width: 100%;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #FFD700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>✏️ Edit Goal: {{ goal.name }}</h2>
+
+  <form action="/edit-goal/{{ index }}" method="POST">
+    <label for="name">Goal Name</label>
+    <input type="text" id="name" name="name" value="{{ goal.name }}" required>
+
+    <label for="target">Target Amount (₹)</label>
+    <input type="number" id="target" name="target" value="{{ goal.target }}" required>
+
+    <label for="current">Current Saved (₹)</label>
+    <input type="number" id="current" name="current" value="{{ goal.current }}" required>
+
+    <label for="date">Target Date</label>
+    <input type="date" id="date" name="date" value="{{ goal.date }}" required>
+
+    <button type="submit">💾 Save Changes</button>
+  </form>
+
+  <a href="/goals">← Back to Goals</a>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Finla – Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      background-color: #111;
+      color: #FFD700;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .nav h1 {
+      font-size: 1.8rem;
+    }
+
+    .nav a {
+      color: #FFD700;
+      text-decoration: none;
+      margin: 0 0.8rem;
+      font-weight: bold;
+    }
+
+    .quote-box, .karma-box, .bank-box, .budget-box {
+      background: #222;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ffd70033;
+      margin-bottom: 1.5rem;
+    }
+
+    .quote-box p {
+      margin: 0.3rem 0;
+    }
+
+    .quote-box small {
+      color: #ccc;
+    }
+
+    .karma-box strong {
+      color: white;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: #1a1a1a;
+      padding: 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #333;
+    }
+
+    .title {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .amount {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <div class="nav">
+    <h1>🪙 Finla</h1>
+    <div>
+      <a href="/">Home</a>
+      <a href="/add">Add</a>
+      <a href="/upload">Upload</a>
+      <a href="/banks">Banks</a>
+      <a href="/charts">Analytics</a>
+      <a href="/goals">Goals</a>
+    </div>
+  </div>
+
+  <!-- Quote -->
+  <div class="quote-box">
+    <p><strong>💬 Quote of the Day:</strong></p>
+    <p>{{ quote.tamil }}</p>
+    <p><em>{{ quote.english }}</em></p>
+    <small>— {{ quote.source }}</small>
+  </div>
+
+  <!-- Karma Score -->
+  <div class="karma-box" style="text-align:center;">
+    {% if good_karma == 0 and bad_karma == 0 %}
+      ⚪ <strong>No karma activity yet</strong><br>
+      Start logging mindfully 🌱
+    {% else %}
+      {% if good_karma > 0 %}
+        🟢 <strong>+{{ good_karma }} Good Karma</strong><br>
+      {% endif %}
+      {% if bad_karma > 0 %}
+        🔴 <strong>-{{ bad_karma }} Bad Karma</strong><br>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <!-- Bank Balance & Budget -->
+  <div class="overview">
+    <div class="card">
+      <div class="title">💰 Total Bank Balance</div>
+      <div class="amount">₹{{ total_balance }}</div>
+    </div>
+
+    <div class="card">
+      <div class="title">📊 50/30/20 Budget</div>
+      <div>
+        Needs: ₹{{ budget.needs }}<br>
+        Wants: ₹{{ budget.wants }}<br>
+        Savings: ₹{{ budget.savings }}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="title">📅 Weekly Spend</div>
+      <div class="amount">₹{{ weekly_spend }}</div>
+    </div>
+  </div>
+
+  <!-- Bank Details Summary -->
+  <div class="bank-box">
+    <h3>🏦 Bank Accounts Summary</h3>
+    {% if banks %}
+      {% for bank in banks %}
+        <p><b>{{ bank.bank_name }}</b> – Min Alert: ₹{{ bank.min_balance }} | Linked UPI: {{ ", ".join(bank.linked_platforms) }}</p>
+      {% endfor %}
+    {% else %}
+      <p>No banks linked yet.</p>
+    {% endif %}
+  </div>
+
+</body>
+</html>

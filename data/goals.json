@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Emergency Fund",
+    "target": 10000,
+    "current": 6000,
+    "date": "2025-08-10"
+  },
+  {
+    "name": "MacBook",
+    "target": 120000,
+    "current": 30000,
+    "date": "2026-01-01"
+  }
+]

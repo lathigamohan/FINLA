@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎯 Your Goals – Finla</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #FFD700;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto 3rem;
+      background: #222;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px #ffd70055;
+    }
+
+    form input, form button {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    form button {
+      background: #FFD700;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .goal-card {
+      background: #222;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 12px #ffd70033;
+    }
+
+    .goal-card h3 {
+      color: #FFD700;
+      margin-bottom: 0.5rem;
+    }
+
+    .goal-card canvas {
+      margin-top: 1rem;
+      max-width: 250px;
+    }
+
+    .goal-actions {
+      margin-top: 1rem;
+    }
+
+    .goal-actions form {
+      display: inline;
+    }
+
+    .goal-actions button {
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+    }
+
+    .edit-btn {
+      background: #00CED1;
+      color: #000;
+    }
+
+    .delete-btn {
+      background: #DC143C;
+      color: #fff;
+    }
+
+    .celebrate {
+      color: lime;
+      font-weight: bold;
+      margin-top: 1rem;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); color: lime; }
+      to { transform: scale(1.1); color: gold; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 Your Savings Goals</h1>
+
+  <!-- New Goal Form -->
+  <form method="POST" action="/add-goal">
+    <input type="text" name="name" placeholder="e.g., Emergency Fund" required>
+    <input type="number" step="0.01" name="target" placeholder="Target Amount (₹)" required>
+    <input type="number" step="0.01" name="current" placeholder="Current Saved (₹)" required>
+    <input type="date" name="date" required>
+    <button type="submit">➕ Create Goal</button>
+  </form>
+
+  <!-- Goals List -->
+  {% if goals %}
+    {% for goal in goals %}
+      <div class="goal-card">
+        <h3>{{ goal.name }}</h3>
+        <p>🎯 Target: ₹{{ goal.target }} | 💰 Saved: ₹{{ goal.current }} | 📅 By: {{ goal.date }}</p>
+
+        <canvas id="goalChart{{ loop.index }}"></canvas>
+
+        {% if goal.current >= goal.target %}
+          <p class="celebrate">🎉 Goal Achieved! 🥳</p>
+        {% endif %}
+
+        <div class="goal-actions">
+          <form action="/edit-goal/{{ loop.index0 }}" method="GET">
+            <button class="edit-btn">✏️ Edit</button>
+          </form>
+          <form action="/delete-goal/{{ loop.index0 }}" method="POST" onsubmit="return confirm('Are you sure to delete this goal?');">
+            <button class="delete-btn">🗑️ Delete</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p style="text-align:center;">No goals yet. Let’s get started! 🌱</p>
+  {% endif %}
+
+  <!-- Chart Script for All Goals -->
+  <script>
+    {% for goal in goals %}
+      const ctx{{ loop.index }} = document.getElementById('goalChart{{ loop.index }}').getContext('2d');
+      new Chart(ctx{{ loop.index }}, {
+        type: 'doughnut',
+        data: {
+          labels: ['Saved', 'Remaining'],
+          datasets: [{
+            data: [{{ goal.current }}, {{ goal.target - goal.current }}],
+            backgroundColor: ['#4CAF50', '#444'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          cutout: '70%',
+          plugins: { legend: { display: true } }
+        }
+      });
+
+      {% if goal.current >= goal.target %}
+        setTimeout(() => {
+          confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+        }, 500);
+      {% endif %}
+    {% endfor %}
+  </script>
+
+</body>
+</html>

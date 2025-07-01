@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Transaction – Finla</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+    }
+    form {
+      background: #222;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #FFD70088;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      background: #FFD700;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .quick-buttons {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .quick-buttons form {
+      display: inline-block;
+      margin: 0 0.5rem;
+    }
+    .quick-buttons button {
+      background: #333;
+      color: #FFD700;
+      border: 1px solid #FFD700;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 style="text-align:center;">📝 Add a Transaction</h2>
+
+  <form method="POST">
+    <input type="number" name="amount" placeholder="Amount (₹)" required step="0.01">
+    <input type="date" name="date" value="{{ today }}" required>
+    <input type="text" name="description" placeholder="Description (e.g., Tea at cafe via GPay)" required>
+
+    <select name="method" required>
+      <option value="" disabled selected>Select Payment Method</option>
+      <option value="Cash">Cash</option>
+      <option value="GPay">GPay</option>
+      <option value="PhonePe">PhonePe</option>
+      <option value="Paytm">Paytm</option>
+      <option value="Amazon Pay">Amazon Pay</option>
+      <option value="Card">Card</option>
+    </select>
+
+    <button type="submit">➕ Add Transaction</button>
+  </form>
+
+  <div class="quick-buttons">
+    <p>⚡ Quick Add:</p>
+    <form method="POST">
+      <input type="hidden" name="date" value="{{ today }}">
+      <input type="hidden" name="amount" value="20">
+      <input type="hidden" name="method" value="Cash">
+      <button name="description" value="Tea">Tea ₹20</button>
+    </form>
+
+    <form method="POST">
+      <input type="hidden" name="date" value="{{ today }}">
+      <input type="hidden" name="amount" value="25">
+      <input type="hidden" name="method" value="Cash">
+      <button name="description" value="Bus Ticket">Bus ₹25</button>
+    </form>
+
+    <form method="POST">
+      <input type="hidden" name="date" value="{{ today }}">
+      <input type="hidden" name="amount" value="30">
+      <input type="hidden" name="method" value="Cash">
+      <button name="description" value="Gave Dog Biscuits">Dog Biscuits ₹30</button>
+    </form>
+  </div>
+
+</body>
+</html>

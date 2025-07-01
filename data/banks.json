@@ -1,0 +1,20 @@
+[
+  {
+    "bank_name": "HDFC Bank",
+    "balance": 10000,
+    "min_balance": 2000,
+    "linked_platforms": ["GPay"]
+  },
+  {
+    "bank_name": "SBI Bank",
+    "balance": 8000,
+    "min_balance": 1500,
+    "linked_platforms": ["PhonePe"]
+  },
+  {
+    "bank_name": "ICICI Bank",
+    "balance": 6000,
+    "min_balance": 1000,
+    "linked_platforms": ["Amazon Pay"]
+  }
+]

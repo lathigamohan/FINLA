@@ -1,50 +1,40 @@
-# 🌾 Finla – Personal Finance Tracker (Ongoing Project) 🚧
+# 💸 FINLA: Financial Life Assistant
 
-> _"Wealth gained rightfully brings glory; wealth that helps others brings peace."_  
-> — Thirukkural 751 | _செல்வம் செழிப்பேற்றுக் கண்ணுடையான் தந்தொழுக்கம்_
-
-Finla is a mindful, minimalist, and empowering personal finance web app designed to help you track your money with purpose and peace. Inspired by Tamil philosophy, built with modern tools, and handcrafted with love.
+> A personalized financial tracker and advisor built entirely in Python.  
+> Track. Plan. Grow. — all from a minimalist, Dockerized app that just works.
 
 ---
 
-## 🔮 Vision
+## 🌟 Features
 
-Finla isn't just another finance tracker — it's a _Thunai_ (companion) for your financial wellness. It follows these timeless principles:
-
-- **Earn Ethically** – Spend mindfully  
-- **Know Your Karma** – Track good vs. impulsive spends  
-- **Grow with Purpose** – Save, plan, and elevate
-
----
-
-## 🚧 Project Status
-
-This is an actively developed project with features rolling out daily until the **MVP launch on July 6, 2025**.  
-Follow our updates here, or [🌐 try the app (Replit)](https://finla.replit.app) (deployment in progress).
+- 🔐 **Secure Login/Signup System**
+- 📊 **Dashboard with Visualized Insights**
+- 💰 **Add & Manage Transactions (Recurring + One-time)**
+- 🔔 **Low Balance & Savings Alerts**
+- 🧮 **Export Monthly/Yearly Reports**
+- 📝 **Quote of the Day** – curated from Warren Buffet & other financial giants
+- 🛠️ **Settings Page** to update thresholds, user data, and preferences
+- ☁️ **Data Stored in CSVs** (hostel-friendly, no DB needed)
+- 🐳 **Dockerized for Simple Deployment**
 
 ---
 
-## 📁 Project Structure
+## 📸 Screenshots  
+*(Coming soon: UI previews of dashboard, transaction manager, and alerts)*
+
+---
+
+## 🚀 Quickstart (Docker Method)
+
+Make sure you have Docker installed.
 
 ```bash
-finla/
-├── app.py
-├── requirements.txt
-├── manifest.json
-├── static/
-│   ├── style.css
-│   ├── scripts.js
-│   └── service-worker.js
-├── templates/
-│   ├── index.html
-│   ├── banks.html
-│   ├── charts.html
-│   ├── upload.html
-│   ├── goals.html
-│   └── add.html
-├── data/
-│   ├── transactions.csv
-│   └── banks.json
-└── utils/
-    ├── categorize.py
-    └── finance.py
+# Clone this repo
+git clone https://github.com/lathigamohan/finla.git
+cd finla
+
+# Build Docker image
+docker build -t finla .
+
+# Run the app
+docker run -p 5000:5000 finla
